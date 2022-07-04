@@ -1,25 +1,18 @@
+version: 2.1
+
+commands:
+  print_pipeline_id:
+    steps:
+      - run: echo ${CIRCLE_WORKFLOW_ID}
+
 jobs:
-  build:
+  my_job:
     docker:
-      - image: cimg/<language>:<version TAG>
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      - image: circleci/node:13.8.0
     steps:
-      - checkout
-      - run: <command>
-  test:
-    docker:
-      - image: cimg/<language>:<version TAG>
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-    steps:
-      - checkout
-      - run: <command>
+      - print_pipeline_id
+
 workflows:
-  version: 2
-  build_and_test:
+  my_workflow:
     jobs:
-      - build
-      - test
+      - my_job
